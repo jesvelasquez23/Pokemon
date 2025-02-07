@@ -1,0 +1,171 @@
+@import url("https://fonts.googleapis.com/css2?family=Rancho&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&display=swap");
+
+body {
+  font-family: "Montserrat", serif;
+  background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4-vrALajTreSpgAY-87NtWppMp_lBVfsRiA&s");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: burlywood;
+}
+
+#seleccionar-mascota {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+h1 {
+  color: black;
+  font-family: "Rancho", cursive;
+  font-size: 63px;
+  margin: 15px;
+}
+
+.tarjeta {
+  display: flex;
+  gap: 10px;
+}
+
+.tarjeta-pokemon {
+  background-color: rgb(251, 250, 255);
+  width: 199px;
+  height: 103px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 26px;
+}
+
+.tarjeta-pokemon:hover {
+  cursor: pointer;
+
+  border: 1px solid lightseagreen;
+}
+.tarjeta-pokemon img {
+  width: 80px;
+}
+
+input {
+  display: none;
+}
+
+input:checked + label {
+  background-color: aquamarine;
+}
+
+#btn-seleccionar {
+  width: 163px;
+  height: 35px;
+  border-radius: 11px;
+  margin: 51px;
+}
+
+#seleccionar-ataque {
+  flex-direction: column;
+  align-items: center;
+}
+
+h2 {
+  color: black;
+  font-family: "Rancho", cursive;
+  font-size: 59px;
+}
+
+.btns-ataque {
+  border-radius: 13px;
+  width: 80px;
+  height: 34px;
+  font-size: 19px;
+  font-family: cursive;
+}
+
+#mensaje {
+  background: wheat;
+  width: 305px;
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+  padding: 20px;
+  border-radius: 10.5px;
+  flex-direction: column;
+  align-items: center;
+}
+
+#consola-ataques {
+  display: flex;
+  width: 800px;
+  justify-content: center;
+  gap: 30px;
+  font-family: "DM Serif Text", serif;
+}
+
+#ataque-jugador {
+  border: 1px solid black;
+  border-radius: 16px;
+  /*   padding: 4px; */
+  text-align: center;
+  background: wheat;
+}
+
+#ataque-enemigo {
+  border: 1px solid black;
+  border-radius: 16px;
+  /*   padding: 4px; */
+  text-align: center;
+  background: wheat;
+}
+
+.titulos-tarjetas {
+  background: #ffbd33;
+  font-family: "DM Serif Text", serif;
+  padding: 6px;
+}
+
+#consola-ataques img {
+  width: 145px;
+  height: 196px;
+}
+
+#ver-mapa {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#mapa {
+  border: 1px solid black;
+  margin: 15px;
+}
+.btn-movimiento {
+  width: 163px;
+  height: 35px;
+  border-radius: 11px;
+  margin: 10px;
+}
+#botonera {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+@media (max-width: 560px) {
+  .tarjeta {
+    flex-direction: column;
+  }
+  .tarjeta-pokemon {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 350px) {
+  .btn-movimiento {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+}

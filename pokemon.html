@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Mokemon!</title>
+    <link rel="stylesheet" href="style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <section id="seleccionar-mascota">
+      <h1>MOKEMON</h1>
+
+      <h2>Elige tu mascota</h2>
+      <article id="contenedor-Tarjetas" class="tarjeta"></article>
+
+      <br />
+      <button id="btn-seleccionar">seleccionar</button>
+    </section>
+
+    <section id="ver-mapa">
+      <h1>Recorre el mapa con tu mokepon</h1>
+      <canvas id="mapa"></canvas>
+      <article id="botonera">
+        <button
+          class="btn-movimiento"
+          onmouseup="detener()"
+          onmousedown="moverArriba()"
+        >
+          Arriba
+        </button>
+        <div id="movimiento-flechas">
+          <button
+            class="btn-movimiento"
+            onmouseup="detener()"
+            onmousedown="moverIzquierda()"
+          >
+            izquierda
+          </button>
+          <button
+            class="btn-movimiento"
+            onmouseup="detener()"
+            onmousedown="moverAbajo()"
+          >
+            abajo
+          </button>
+          <button
+            class="btn-movimiento"
+            onmouseup="detener()"
+            onmousedown="moverDerecha()"
+          >
+            derecha
+          </button>
+        </div>
+      </article>
+    </section>
+
+    <section id="seleccionar-ataque">
+      <h1>MOKEMON</h1>
+
+      <h2>Elige tu ataque</h2>
+
+      <div id="contenedor-ataques"></div>
+
+      <article id="mensaje">
+        <p id="resultado"></p>
+
+        <article id="fin-del-juego">
+          <button id="btn-reiniciar">Reiniciar</button>
+        </article>
+      </article>
+
+      <div id="consola-ataques">
+        <img
+          src="https://images.wikidexcdn.net/mwuploads/wikidex/thumb/e/e8/latest/20150428173434/Ash_Ketchum_%28anime_DP%29.png/145px-Ash_Ketchum_%28anime_DP%29.png"
+        />
+
+        <article id="ataque-jugador">
+          <p class="titulos-tarjetas">mascota jugador</p>
+          <article>
+            <span id="mascota-jugador"></span> <br />
+
+            <span id="vidas-jugador">0</span>
+          </article>
+        </article>
+
+        <img
+          src="https://images.wikidexcdn.net/mwuploads/wikidex/1/11/latest/20200724193712/James_%28Pocket_Monsters%29.png"
+        />
+
+        <article id="ataque-enemigo">
+          <p class="titulos-tarjetas">mascota enemiga</p>
+          <article>
+            <span id="mascota-enemigo"> </span><br />
+
+            <span id="vidas-enemigo">0</span>
+          </article>
+        </article>
+      </div>
+    </section>
+
+    <script src="js/pokemon.js"></script>
+  </body>
+</html>
