@@ -59,7 +59,20 @@ app.post("/mokepon/:jugadorId", (req, res) => {
   res.end();
 });
 
-console.log("esta es una prueba de sincronizacion");
+app.post("/mokepon/:juadorId/posicion", (req, res) => {
+  const jugadorId = req.params.jugadorId || "";
+  const x = req.body.x || "";
+  const y = req.body.y || "";
+  const jugadorIndex = jugadores.findIndex(
+    (jugador) => jugadorId === jugador.id
+  );
+
+  if (jugadorIndex >= 0) {
+    jugadores[jugadorIndex].actualizarPosicion(x, y);
+  }
+
+  res.end();
+});
 
 app.listen(8080, () => {
   console.log("el servidor ya arranco");

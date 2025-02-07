@@ -207,7 +207,7 @@ function iniciarJuego() {
     contenedorTarjeta.innerHTML += opcionDeMokepones;
 
     inputHipodoge = document.getElementById("Hipoge");
-    inputCapipepo = document.getElementById("capepo");
+    inputCapepo = document.getElementById("capepo");
     inputRatigueya = document.getElementById("ratigueya");
   });
 
@@ -239,9 +239,9 @@ function seleccionMascotaJugador() {
   if (inputHipodoge.checked) {
     spanMascotaJugador.innerHTML = inputHipodoge.id;
     mascotaJugador = inputHipodoge.id;
-  } else if (inputCapipepo.checked) {
-    spanMascotaJugador.innerHTML = inputCapipepo.id;
-    mascotaJugador = inputCapipepo.id;
+  } else if (inputCapepo.checked) {
+    spanMascotaJugador.innerHTML = inputCapepo.id;
+    mascotaJugador = inputCapepo.id;
   } else if (inputRatigueya.checked) {
     spanMascotaJugador.innerHTML = inputRatigueya.id;
     mascotaJugador = inputRatigueya.id;
@@ -438,7 +438,7 @@ function pintarCanvas() {
   // parametros de imagen: foto, x, y, ancho, alto
 
   mascotaJugadorObjeto.pintarMokepon();
-
+  enviarPosicion(mascotaJugadorObjeto.x, mascotaJugadorObjeto.y);
   HipogeEnemigo.pintarMokepon();
   capepoEnemigo.pintarMokepon();
   ratigueyaEnemigo.pintarMokepon();
@@ -452,7 +452,7 @@ function pintarCanvas() {
   }
 }
 
-function moverDerecha() {
+function btnMoverDerecha() {
   mascotaJugadorObjeto.velocidadMovimientoX = 5;
 }
 
@@ -484,7 +484,7 @@ function sepresionoTeclado(event) {
       moverAbajo();
       break;
     case "ArrowRight":
-      moverDerecha();
+      btnMoverDerecha();
       break;
 
     default:
