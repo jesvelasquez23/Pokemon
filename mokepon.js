@@ -59,6 +59,8 @@ app.post("/mokepon/:jugadorId", (req, res) => {
   res.end();
 });
 
+console.log("esta es una prueba de sincronizacion");
+
 app.listen(8080, () => {
   console.log("el servidor ya arranco");
 });
