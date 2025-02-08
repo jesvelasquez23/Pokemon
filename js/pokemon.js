@@ -472,26 +472,6 @@ function detener() {
   mascotaJugadorObjeto.velocidadMovimientoY = 0;
 }
 
-function sepresionoTeclado(event) {
-  switch (event.key) {
-    case "ArrowUp":
-      moverArriba();
-      break;
-    case "ArrowLeft":
-      moverIzquierda();
-      break;
-    case "ArrowDown":
-      moverAbajo();
-      break;
-    case "ArrowRight":
-      btnMoverDerecha();
-      break;
-
-    default:
-      break;
-  }
-}
-
 function iniciarMapa() {
   mascotaJugadorObjeto = obtenerObjetoMascota(mascotaJugador);
   console.log(mascotaJugadorObjeto, mascotaJugador);
