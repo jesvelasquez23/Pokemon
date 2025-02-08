@@ -452,6 +452,26 @@ function pintarCanvas() {
   }
 }
 
+function sepresionoTeclado(event) {
+  switch (event.key) {
+    case "ArrowUp":
+      moverArriba();
+      break;
+    case "ArrowLeft":
+      moverIzquierda();
+      break;
+    case "ArrowDown":
+      moverAbajo();
+      break;
+    case "ArrowRight":
+      btnMoverDerecha();
+      break;
+
+    default:
+      break;
+  }
+}
+
 function btnMoverDerecha() {
   mascotaJugadorObjeto.velocidadMovimientoX = 5;
 }
