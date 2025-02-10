@@ -452,6 +452,25 @@ function pintarCanvas() {
   }
 }
 
+function enviarPosicion(x, y) {
+  fetch(`http://localhost:8080/mokepon/${jugadorId}/posicion`, {
+    method: "post",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      x,
+      y,
+    }),
+  }).then(function (res) {
+    if (res.ok) {
+      res.json().then(function ({ enemigos }) {
+        console.log(enemigos);
+      });
+    }
+  });
+}
+
 function sepresionoTeclado(event) {
   switch (event.key) {
     case "ArrowUp":
@@ -464,7 +483,7 @@ function sepresionoTeclado(event) {
       moverAbajo();
       break;
     case "ArrowRight":
-      btnMoverDerecha();
+      MoverDerecha();
       break;
 
     default:
@@ -472,7 +491,7 @@ function sepresionoTeclado(event) {
   }
 }
 
-function btnMoverDerecha() {
+function MoverDerecha() {
   mascotaJugadorObjeto.velocidadMovimientoX = 5;
 }
 

@@ -59,10 +59,11 @@ app.post("/mokepon/:jugadorId", (req, res) => {
   res.end();
 });
 
-app.post("/mokepon/:juadorId/posicion", (req, res) => {
+app.post("/mokepon/:jugadorId/posicion", (req, res) => {
   const jugadorId = req.params.jugadorId || "";
-  const x = req.body.x || "";
-  const y = req.body.y || "";
+  const x = req.body.x || 0;
+  const y = req.body.y || 0;
+
   const jugadorIndex = jugadores.findIndex(
     (jugador) => jugadorId === jugador.id
   );
@@ -71,7 +72,11 @@ app.post("/mokepon/:juadorId/posicion", (req, res) => {
     jugadores[jugadorIndex].actualizarPosicion(x, y);
   }
 
-  res.end();
+  let enemigos = jugadores.filter((jugador) => jugadorId !== jugador.id);
+
+  res.send({
+    enemigos,
+  });
 });
 
 app.listen(8080, () => {
