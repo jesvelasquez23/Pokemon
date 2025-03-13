@@ -24,18 +24,20 @@ class Jugador {
 
 class Mokepon {
   constructor(nombre) {
-    this.mokepon = nombre;
+    this.nombre = nombre;
   }
 }
 
 app.get("/unirse", (req, res) => {
-  const id = `${Math.random()}`;
+  const id = crypto.randomUUID();
+  // `${Math.random()}`;
 
   const jugador = new Jugador(id);
 
   jugadores.push(jugador);
   // habilitamos los origenes del servidor
   res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Cache-Control", "no-store");
 
   res.send(id);
 });
@@ -44,18 +46,30 @@ app.post("/mokepon/:jugadorId", (req, res) => {
   //acceso a la variable de la url jugadoresId
   const jugadorId = req.params.jugadorId || "";
   const nombre = req.body.mokepon || "";
-  const mokepon = new Mokepon(nombre);
 
-  const jugadorIndex = jugadores.findIndex(
-    (jugador) => jugadorId === jugador.id
-  );
+  const jugador = jugadores.find((j) => j.id === jugadorId);
 
-  if (jugadorIndex >= 0) {
-    jugadores[jugadorIndex].asignarMokepon(mokepon);
+  if (jugador) {
+    jugador.asignarMokepon(new Mokepon(nombre));
+    console.log(
+      `Mokepon asignado a jugador ${jugadorId}:`,
+      JSON.stringify(jugador, null, 2)
+    );
+  } else {
+    console.log("Error: jugador no encontrado", jugadorId);
   }
+  // const mokepon = new Mokepon(nombre);
 
-  console.log(jugadores);
-  console.log(jugadorId);
+  // const jugadorIndex = jugadores.findIndex(
+  //   (jugador) => jugadorId === jugador.id
+  // );
+
+  // if (jugadorIndex >= 0) {
+  //   jugadores[jugadorIndex].asignarMokepon(mokepon);
+  // }
+
+  // console.log(jugadores);
+  // console.log(jugadorId);
   res.end();
 });
 
@@ -64,15 +78,30 @@ app.post("/mokepon/:jugadorId/posicion", (req, res) => {
   const x = req.body.x || 0;
   const y = req.body.y || 0;
 
-  const jugadorIndex = jugadores.findIndex(
-    (jugador) => jugadorId === jugador.id
-  );
+  const jugador = jugadores.find((j) => j.id === jugadorId);
 
-  if (jugadorIndex >= 0) {
-    jugadores[jugadorIndex].actualizarPosicion(x, y);
+  if (jugador) {
+    jugador.actualizarPosicion(x, y);
   }
 
-  let enemigos = jugadores.filter((jugador) => jugadorId !== jugador.id);
+  const enemigos = jugadores
+    .filter((j) => j.id !== jugadorId && j.mokepon) // Solo jugadores con Mokepon asignado
+    .map((j) => ({
+      id: j.id,
+      x: j.x || 0,
+      y: j.y || 0,
+      mokepon: j.mokepon,
+    }));
+
+  console.log(
+    "enviando enemigos al cliente",
+    JSON.stringify(enemigos, null, 2)
+  );
+  // if (jugadorIndex >= 0) {
+  //   jugadores[jugadorIndex].actualizarPosicion(x, y);
+  // }
+
+  // const enemigos = jugadores.filter((jugador) => jugadorId !== jugador.id);
 
   res.send({
     enemigos,
