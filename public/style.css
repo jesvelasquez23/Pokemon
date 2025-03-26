@@ -4,10 +4,12 @@
 body {
   font-family: "Montserrat", serif;
   background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4-vrALajTreSpgAY-87NtWppMp_lBVfsRiA&s");
-  background-size: cover;
-  background-position: center;
+  background-size: cover; /* Cubre toda la pantalla */
+  background-position: center; /* Centra la imagen */
   background-repeat: no-repeat;
-  background-color: burlywood;
+  background-attachment: fixed; /* Fija la imagen en su posición */
+  height: 100vh; /* Asegura que el fondo siempre cubra la altura de la pantalla */
+  overflow: hidden; /* Evita desplazamiento */
 }
 
 #seleccionar-mascota {

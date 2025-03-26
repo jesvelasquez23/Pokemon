@@ -3,8 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <title>Mokemon!</title>
-    <link rel="stylesheet" href="style.css" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style.css" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, user-scalable=no"
+    />
   </head>
   <body>
     <section id="seleccionar-mascota">
@@ -23,6 +26,8 @@
       <article id="botonera">
         <button
           class="btn-movimiento"
+          ontouchstart="moverArriba()"
+          ontouchend="detener()"
           onmouseup="detener()"
           onmousedown="moverArriba()"
         >
@@ -31,6 +36,8 @@
         <div id="movimiento-flechas">
           <button
             class="btn-movimiento"
+            ontouchstart="moverIzquierda()"
+            ontouchend="detener()"
             onmouseup="detener()"
             onmousedown="moverIzquierda()"
           >
@@ -38,6 +45,8 @@
           </button>
           <button
             class="btn-movimiento"
+            ontouchstart="moverAbajo()"
+            ontouchend="detener()"
             onmouseup="detener()"
             onmousedown="moverAbajo()"
           >
@@ -45,6 +54,8 @@
           </button>
           <button
             class="btn-movimiento"
+            ontouchstart="moverDerecha()"
+            ontouchend="detener()"
             onmouseup="detener()"
             onmousedown="moverDerecha()"
           >
@@ -62,7 +73,7 @@
       <div id="contenedor-ataques"></div>
 
       <article id="mensaje">
-        <p id="resultado"></p>
+        <p id="resultado">buena suerte 🤺</p>
 
         <article id="fin-del-juego">
           <button id="btn-reiniciar">Reiniciar</button>

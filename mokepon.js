@@ -4,6 +4,7 @@ const cors = require("cors");
 
 const app = express();
 
+app.use(express.static("public"));
 app.use(cors()); // cors para solucionar problemas de origen
 app.use(express.json()); //usar todos los paquetes json
 
@@ -20,6 +21,9 @@ class Jugador {
     this.x = x;
     this.y = y;
   }
+  asignarAtaques(ataques) {
+    this.ataques = ataques;
+  }
 }
 
 class Mokepon {
@@ -30,9 +34,10 @@ class Mokepon {
 
 app.get("/unirse", (req, res) => {
   const id = crypto.randomUUID();
-  // `${Math.random()}`;
-
   const jugador = new Jugador(id);
+
+  jugador.x = Math.floor(Math.random() * 500);
+  jugador.y = Math.floor(Math.random() * 500);
 
   jugadores.push(jugador);
   // habilitamos los origenes del servidor
@@ -58,18 +63,7 @@ app.post("/mokepon/:jugadorId", (req, res) => {
   } else {
     console.log("Error: jugador no encontrado", jugadorId);
   }
-  // const mokepon = new Mokepon(nombre);
 
-  // const jugadorIndex = jugadores.findIndex(
-  //   (jugador) => jugadorId === jugador.id
-  // );
-
-  // if (jugadorIndex >= 0) {
-  //   jugadores[jugadorIndex].asignarMokepon(mokepon);
-  // }
-
-  // console.log(jugadores);
-  // console.log(jugadorId);
   res.end();
 });
 
@@ -94,17 +88,36 @@ app.post("/mokepon/:jugadorId/posicion", (req, res) => {
     }));
 
   console.log(
-    "enviando enemigos al cliente",
+    "enviando enemigos al cliente: ",
     JSON.stringify(enemigos, null, 2)
   );
-  // if (jugadorIndex >= 0) {
-  //   jugadores[jugadorIndex].actualizarPosicion(x, y);
-  // }
-
-  // const enemigos = jugadores.filter((jugador) => jugadorId !== jugador.id);
 
   res.send({
     enemigos,
+  });
+});
+
+app.post("/mokepon/:jugadorId/ataques", (req, res) => {
+  //acceso a la variable de la url jugadoresId
+  const jugadorId = req.params.jugadorId || "";
+  const ataques = req.body.ataques || [];
+
+  const jugador = jugadores.find((j) => j.id === jugadorId);
+
+  if (jugador) {
+    jugador.asignarAtaques(ataques);
+  }
+
+  res.end();
+});
+
+app.get("/mokepon/:jugadorId/ataques", (req, res) => {
+  const jugadorId = req.params.jugadorId || "";
+  const jugador = jugadores.find((jugador) => jugador.id === jugadorId);
+  console.log("Jugador ID:", jugadorId);
+
+  res.send({
+    ataques: jugador.ataques || [],
   });
 });
 

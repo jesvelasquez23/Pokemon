@@ -36,6 +36,7 @@ const mapaBackground = new Image();
 mapaBackground.src = "./img/mokemap.png";
 
 let jugadorId = null;
+let enemigoId = null;
 let ataqueJugador = [];
 let ataqueEnemigo = [];
 let listaMokepones = [];
@@ -187,8 +188,7 @@ function iniciarJuego() {
 // realizar peticiones al servidor por medio de fetch
 
 function seleccionMascotaJugador() {
-  seccionMascota.style.display = "none";
-  seccionAtaque.style.display = "none";
+  // seccionAtaque.style.display = "none";
 
   if (inputHipodoge.checked) {
     spanMascotaJugador.innerHTML = inputHipodoge.id;
@@ -201,7 +201,10 @@ function seleccionMascotaJugador() {
     mascotaJugador = inputRatigueya.id;
   } else {
     alert("selecciona una mascota");
+    return;
   }
+
+  seccionMascota.style.display = "none";
 
   seleccionarMokepon(mascotaJugador);
   extraerAtaques(mascotaJugador);
@@ -210,7 +213,7 @@ function seleccionMascotaJugador() {
 }
 
 function unirseAlJuego() {
-  fetch("http://localhost:8080/unirse").then(function (res) {
+  fetch("http://192.168.230.81:8080/unirse").then(function (res) {
     if (res.ok) {
       res.text().then(function (respuesta) {
         console.log(respuesta);
@@ -223,7 +226,7 @@ function unirseAlJuego() {
 //enviar informacion al servidor sin respuesta
 function seleccionarMokepon(mascotaJugador) {
   console.log("enviando mokepon al servidor: " + jugadorId, mascotaJugador);
-  fetch(`http://localhost:8080/mokepon/${jugadorId}`, {
+  fetch(`http://192.168.230.81:8080/mokepon/${jugadorId}`, {
     method: "post",
     headers: {
       "Content-Type": "application/json",
@@ -283,17 +286,12 @@ function secuenciaAtaque() {
         boton.style.background = "#EEEEEE";
         boton.disabled = true;
       }
-      ataquesAleatoriosEnemigo();
+
+      if (ataqueJugador.length === 5) {
+        enviarAtaques();
+      }
     });
   });
-}
-
-function seleccionMasscotaPc(enemigo) {
-  seleccionDeSeleccionarMascota.style.display = "none";
-
-  spanMascotaEnemigo.innerHTML = enemigo.nombre;
-  ataquesMokeponEnemigo = enemigo.ataques;
-  secuenciaAtaque();
 }
 
 function ataquesAleatoriosEnemigo() {
@@ -306,8 +304,46 @@ function ataquesAleatoriosEnemigo() {
   } else {
     ataqueEnemigo.push("TIERRA");
   }
-  console.log(ataqueEnemigo);
+  console.log("ataques del enemigo: ", ataqueEnemigo);
   iniciarDuelo();
+}
+
+function enviarAtaques() {
+  console.log("jugador ID: ", jugadorId);
+  fetch(`http://192.168.230.81:8080/mokepon/${jugadorId}/ataques`, {
+    method: "post",
+    headers: {
+      "Content-type": "application/json",
+    },
+    body: JSON.stringify({
+      ataques: ataqueJugador,
+    }),
+  });
+
+  intervalo = setInterval(obtenerAtaques, 50);
+}
+
+function obtenerAtaques() {
+  fetch(`http://192.168.230.81:8080/mokepon/${enemigoId}/ataques`).then(
+    function (res) {
+      if (res.ok) {
+        res.json().then(function ({ ataques }) {
+          if (ataques.length === 5) {
+            ataqueEnemigo = ataques;
+            resultadosDuelo();
+          }
+        });
+      }
+    }
+  );
+}
+
+function seleccionMasscotaPc(enemigo) {
+  seleccionDeSeleccionarMascota.style.display = "none";
+
+  spanMascotaEnemigo.innerHTML = enemigo.nombre;
+  ataquesMokeponEnemigo = enemigo.ataques;
+  secuenciaAtaque();
 }
 
 function iniciarDuelo() {
@@ -323,6 +359,10 @@ function indexContrincantes(jugador, enemigo) {
 
 //combate
 function resultadosDuelo() {
+  console.log(victorias);
+  console.log(derrotas);
+  clearInterval(intervalo);
+
   for (let index = 0; index < ataqueJugador.length; index++) {
     if (ataqueJugador[index] === ataqueEnemigo[index]) {
       indexContrincantes(index, index);
@@ -363,6 +403,7 @@ function resultadosDuelo() {
 }
 
 function verificarVidas() {
+  console.log(victorias, derrotas);
   if (victorias > derrotas) {
     crearMensajeFinal("FELICIDADES! GANASTE EL COMBATE 💥");
   } else if (derrotas > victorias) {
@@ -387,7 +428,6 @@ function crearMensaje(resultado) {
 function crearMensajeFinal(mensajeFinal) {
   seccionMensaje.innerHTML = mensajeFinal;
 
-  let botonReiniciarJuego = document.getElementById("fin-del-juego");
   botonReiniciarJuego.style.display = "block";
 }
 
@@ -419,7 +459,7 @@ function pintarCanvas() {
 }
 
 function enviarPosicion(x, y) {
-  fetch(`http://localhost:8080/mokepon/${jugadorId}/posicion`, {
+  fetch(`http://192.168.230.81:8080/mokepon/${jugadorId}/posicion`, {
     method: "post",
     headers: {
       "Content-Type": "application/json",
@@ -445,21 +485,24 @@ function enviarPosicion(x, y) {
                 "Hipoge",
                 "./img/mokepons_mokepon_hipodoge_attack.png",
                 5,
-                "./img/hipodoge.png"
+                "./img/hipodoge.png",
+                enemigo.id
               );
             } else if (MokeponNombre === "capepo") {
               MokeponEnemigo = new Mokepon(
                 "capepo",
                 "./img/mokepons_mokepon_capipepo_attack.png ",
                 5,
-                "./img/capipepo.png"
+                "./img/capipepo.png",
+                enemigo.id
               );
             } else if (MokeponNombre === "ratigueya") {
               MokeponEnemigo = new Mokepon(
                 "ratigueya",
                 "./img/mokepons_mokepon_ratigueya_attack.png ",
                 5,
-                "./img/ratigueya.png"
+                "./img/ratigueya.png",
+                enemigo.id
               );
             }
 
@@ -491,7 +534,7 @@ function sepresionoTeclado(event) {
       moverAbajo();
       break;
     case "ArrowRight":
-      MoverDerecha();
+      moverDerecha();
       break;
 
     default:
@@ -499,7 +542,7 @@ function sepresionoTeclado(event) {
   }
 }
 
-function MoverDerecha() {
+function moverDerecha() {
   mascotaJugadorObjeto.velocidadMovimientoX = 5;
 }
 
@@ -557,6 +600,7 @@ function verificarColicion(enemigo) {
   } else {
     detener();
     clearInterval(intervalo);
+    enemigoId = enemigo.id;
     seccionAtaque.style.display = "flex";
     contenedorMapa.style.display = "none";
     seleccionMasscotaPc(enemigo);
